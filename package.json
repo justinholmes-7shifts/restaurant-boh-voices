@@ -1,0 +1,21 @@
+{
+  "name": "restaurant-boh-voices",
+  "version": "1.0.0",
+  "description": "Tracking top voices in restaurant back of house labor management",
+  "main": "scripts/apify-weekly-scraper.js",
+  "scripts": {
+    "scrape": "node scripts/apify-weekly-scraper.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "restaurant",
+    "labor-management",
+    "influencers",
+    "scraping"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apify-client": "^2.9.3"
+  }
+}

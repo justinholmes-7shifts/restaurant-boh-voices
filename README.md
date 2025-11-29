@@ -34,6 +34,22 @@ See `voices.csv` for the main database of tracked voices with platform-specific 
 - Cost Control & Analytics
 - HR & Compliance
 
+## Automated Discovery
+
+This project includes automation tools to discover emerging voices weekly. See [AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md) for:
+
+- Setting up Apify scrapers for Instagram, TikTok, and YouTube
+- Monitoring trending hashtags and creators
+- Tracking channel growth and engagement metrics
+- Weekly workflow for discovering new voices
+
+**Quick Start**:
+```bash
+npm install
+export APIFY_TOKEN=your_token_here
+npm run scrape
+```
+
 ## Contributing
 
 When adding new voices, please include:

@@ -20,3 +20,11 @@ Thumbs.db
 # Data backups
 *.backup
 *.bak
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Scraped data (can be large)
+data/weekly-scrapes/
+data/analysis/*.json
