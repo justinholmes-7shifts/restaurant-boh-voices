@@ -10,6 +10,9 @@
  * 3. Run: node scripts/apify-weekly-scraper.js
  */
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 const { ApifyClient } = require('apify-client');
 const fs = require('fs');
 const path = require('path');
@@ -29,19 +32,31 @@ const config = {
             'restaurantscheduling',
             'restaurantlabor',
             'bohlife',
-            'restaurantowner'
+            'restaurantowner',
+            'linecook',
+            'restaurantmanager',
+            'hospitalitylife'
         ],
         resultsLimit: 50
     },
     tiktok: {
-        trendingCreators: 100,
-        trendingHashtags: 50,
         hashtags: [
-            '#restaurantmanagement',
-            '#restaurantowner',
-            '#kitchenlife',
-            '#restaurantoperations'
-        ]
+            'restaurantmanagement',
+            'restaurantowner',
+            'kitchenlife',
+            'bohlife',
+            'restaurantoperations',
+            'restaurantboss',
+            'cheflife',
+            'linecook',
+            'restaurantmanager',
+            'hospitalitylife',
+            'restaurantteam',
+            'kitchenmanager',
+            'restaurantstaff',
+            'chefsoftiktok'
+        ],
+        resultsPerHashtag: 50  // Get 50 videos per hashtag
     },
     youtube: {
         // Add your tracked channels here
@@ -92,12 +107,12 @@ async function scrapeInstagram() {
 }
 
 async function scrapeTikTok() {
-    console.log('🎵 Starting TikTok trends scrape...');
+    console.log('🎵 Starting TikTok hashtag scrape...');
 
     try {
-        const run = await client.actor("clockworks/tiktok-trends-scraper").call({
-            trendingCreators: config.tiktok.trendingCreators,
-            trendingHashtags: config.tiktok.trendingHashtags
+        const run = await client.actor("clockworks/tiktok-hashtag-scraper").call({
+            hashtags: config.tiktok.hashtags,
+            resultsPerHashtag: config.tiktok.resultsPerHashtag
         });
 
         console.log(`✅ TikTok scrape completed. Run ID: ${run.id}`);
@@ -106,10 +121,10 @@ async function scrapeTikTok() {
         const { items } = await client.dataset(run.defaultDatasetId).listItems();
 
         // Save to JSON
-        const jsonPath = path.join(dataDir, 'tiktok-trends.json');
+        const jsonPath = path.join(dataDir, 'tiktok-hashtags.json');
         fs.writeFileSync(jsonPath, JSON.stringify(items, null, 2));
 
-        console.log(`💾 Saved TikTok trends to ${jsonPath}`);
+        console.log(`💾 Saved ${items.length} TikTok videos to ${jsonPath}`);
 
         return items;
     } catch (error) {
@@ -122,8 +137,9 @@ async function scrapeYouTube() {
     console.log('📹 Starting YouTube channel scrape...');
 
     try {
-        const run = await client.actor("bakkeshks/youtube-growth-scraper").call({
-            channelUrls: config.youtube.channelUrls
+        const run = await client.actor("streamers/youtube-scraper").call({
+            startUrls: config.youtube.channelUrls.map(url => ({ url })),
+            maxResults: 20  // Get recent 20 videos per channel
         });
 
         console.log(`✅ YouTube scrape completed. Run ID: ${run.id}`);
